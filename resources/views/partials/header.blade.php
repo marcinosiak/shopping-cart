@@ -19,7 +19,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Konto klienta <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{{ route('user.signup') }}">Zarejestruj</a></li>
-            <li><a href="#">Zaloguj</a></li>
+            <li><a href="{{ route('user.signin') }}">Zaloguj</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Wyloguj</a></li>
           </ul>
