@@ -17,32 +17,59 @@ Route::get('/', [
   'as' => 'product.index'
 ]);
 
-//Wyświetla formularz rejestracji
-Route::get('/signup', [
-  'uses' => 'UserController@getSignup',
-  'as' => 'user.signup'
-]);
+//Grupuję ścieżki związane z użytkownikiem
+//nie muszę teraz dodawać przedrostka /user
+//zamiast /user/signup zapisuję /signup
+Route::group(['prefix' => 'user'], function(){
 
-//Zapisuje użytkownika do bazy
-Route::post('/signup', [
-  'uses' => 'UserController@postSignup',
-  'as' => 'user.signup'
-]);
+  //Grupuję ścieżki związane z dostępem do poszczegolnych stron
+  //Tutaj dla niezalogowanych użytkownikw
+  Route::group(['middleware' => 'guest'], function(){
 
-//Wyświetla formularz logowania
-Route::get('/signin', [
-  'uses' => 'UserController@getSignin',
-  'as' => 'user.signin'
-]);
+      //Wyświetla formularz rejestracji
+      Route::get('/signup', [
+        'uses' => 'UserController@getSignup',
+        'as' => 'user.signup'
+      ]);
 
-//Loguje użytkownika do systemu
-Route::post('/signin', [
-  'uses' => 'UserController@postSignin',
-  'as' => 'user.signin'
-]);
+      //Zapisuje użytkownika do bazy
+      Route::post('/signup', [
+        'uses' => 'UserController@postSignup',
+        'as' => 'user.signup'
+      ]);
 
-//Wyświetla profil użytkownika
-Route::get('/user/profile', [
-  'uses' => 'UserController@getProfile',
-  'as' => 'user.profile'
-]);
+      //Wyświetla formularz logowania
+      Route::get('/signin', [
+        'uses' => 'UserController@getSignin',
+        'as' => 'user.signin'
+      ]);
+
+      //Loguje użytkownika do systemu
+      Route::post('/signin', [
+        'uses' => 'UserController@postSignin',
+        'as' => 'user.signin'
+      ]);
+
+  });
+
+  //Grupuję ścieżki związane z dostępem do poszczegolnych stron
+  //Tutaj dostęp tylko dla zalogowanych użytkownikw
+  Route::group(['middleware' => 'auth'], function(){
+
+      //Wyświetla profil użytkownika
+      Route::get('/profile', [
+        'uses' => 'UserController@getProfile',
+        'as' => 'user.profile'
+      ]);
+
+      //Wylogowanie użytkownika
+      Route::get('/logout', [
+        'uses' => 'UserController@getLogout',
+        'as' => 'user.logout'
+      ]);
+
+  });
+
+
+
+});

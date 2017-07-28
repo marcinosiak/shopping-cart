@@ -34,7 +34,10 @@ class UserController extends Controller
       ]);
       $user->save();
 
-      return redirect()->route('product.index');
+      //po zapisaniu do bazy od razu loguję nowego usera
+      Auth::login($user);
+
+      return redirect()->route('user.profile');
     }
 
     //Wyświetla formularz logowania
@@ -43,6 +46,11 @@ class UserController extends Controller
       return view('user.signin');
     }
 
+    /**
+     * Logowanie użytkownika
+     * @param  Request $request [description]
+     * @return [type]           [przekierowanie]
+     */
     public function postSignin(Request $request)
     {
       $this->validate($request, [
@@ -58,9 +66,20 @@ class UserController extends Controller
       return redirect()->back();
     }
 
+    //Wyświetla profil użytkownika
     public function getProfile()
     {
       return view('user.profile');
     }
 
+    /**
+     * Wylogowanie użytkownika
+     * @return [type] [description]
+     */
+    public function getLogout()
+    {
+      Auth::logout();
+      return redirect()->route('user.signin');
+      //return redirect()->back();
+    }
 }
