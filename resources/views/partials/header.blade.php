@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="{{ route('product.index') }}">Start</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,7 +18,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Konto klienta <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">User acount</a></li>
+            <li><a href="{{ route('user.signup') }}">Zarejestruj</a></li>
+            <li><a href="#">Zaloguj</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Wyloguj</a></li>
           </ul>

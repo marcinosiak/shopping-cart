@@ -11,7 +11,20 @@
 |
 */
 
+//Wyświetla wszystkie książki
 Route::get('/', [
   'uses' => 'ProductController@getIndex',
   'as' => 'product.index'
+]);
+
+//Wyświetla formularz rejestracji
+Route::get('/signup', [
+  'uses' => 'UserController@getSignup',
+  'as' => 'user.signup'
+]);
+
+//
+Route::post('/signup', [
+  'uses' => 'UserController@postSignup',
+  'as' => 'user.signup'
 ]);
