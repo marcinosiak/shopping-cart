@@ -17,6 +17,12 @@ Route::get('/', [
   'as' => 'product.index'
 ]);
 
+//Dodaje produkt do koszyka o określonym id
+Route::get('/add-to-cart/{id}', [
+  'uses' => 'ProductController@getAddToCart',
+  'as' => 'product.addToCart'
+]);
+
 //Grupuję ścieżki związane z użytkownikiem
 //nie muszę teraz dodawać przedrostka /user
 //zamiast /user/signup zapisuję /signup
