@@ -23,6 +23,12 @@ Route::get('/add-to-cart/{id}', [
   'as' => 'product.addToCart'
 ]);
 
+//Wyświetla koszyk
+Route::get('/shoping-cart', [
+  'uses' => 'ProductController@getCart',
+  'as' => 'product.shoppingCart'
+]);
+
 //Grupuję ścieżki związane z użytkownikiem
 //nie muszę teraz dodawać przedrostka /user
 //zamiast /user/signup zapisuję /signup

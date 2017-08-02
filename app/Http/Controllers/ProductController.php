@@ -21,6 +21,12 @@ class ProductController extends Controller
       return view('shop.index', ['products' => $products]);
     }
 
+    /**
+     * dodaje produkt do koszyka
+     * @param  Request $request [description]
+     * @param  int  $id  - id książki w bazie
+     * @return przekierowanie do widoku wszystkich książek
+     */
     public function getAddToCart(Request $request, $id)
     {
       $product = Product::find($id);
@@ -29,7 +35,23 @@ class ProductController extends Controller
       $cart->add($product, $product->id);
 
       $request->session()->put('cart', $cart);
-      dd($request->session()->get('cart'));
+      //dd($request->session()->get('cart'));
       return redirect()->route('product.index');
+    }
+
+    /**
+     * Wyświetla koszyk z produktami
+     * @return [type] [description]
+     */
+    public function getCart()
+    {
+      //koszyk jest pusty
+      if (!Session::has('cart')) {
+          return view('shop.shopping-cart');
+      }
+
+      $oldCart = Session::get('cart');
+      $cart = new Cart($oldCart);
+      return view('shop.shopping-cart', ['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
 }
