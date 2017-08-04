@@ -29,6 +29,18 @@ Route::get('/shoping-cart', [
   'as' => 'product.shoppingCart'
 ]);
 
+//Wyświetla formularz dla karty kredytowej
+Route::get('/checkout', [
+  'uses' => 'ProductController@getCheckout',
+  'as' => 'checkout'
+]);
+
+//Przetwarza formularz dla karty kredytowej
+Route::post('/checkout', [
+  'uses' => 'ProductController@postCheckout',
+  'as' => 'checkout'
+]);
+
 //Grupuję ścieżki związane z użytkownikiem
 //nie muszę teraz dodawać przedrostka /user
 //zamiast /user/signup zapisuję /signup
