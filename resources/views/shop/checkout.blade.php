@@ -9,7 +9,10 @@
       <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
           <h1>Checkout</h1>
           <h4>Suma zamowienia: {{ $total }} zł</h4>
-          <form class="" action="{{ route('checkout') }}" method="post" id="checkout-form">
+          <div id="charge-error" class="alert alert-danger {{ !Session::has('error') ? 'hidden' : '' }} ">
+              {{ Session::get('error') }}
+          </div>
+          <form action="{{ route('checkout') }}" method="post" id="checkout-form">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -67,8 +70,13 @@
                 </div>
             </div>
             {{ csrf_field() }}
-            <button type="button" class="btn btn-success">Kup teraz</button>
+            <button type="submit" class="btn btn-success">Kup teraz</button>
           </form>
       </div>
   </div>
+@endsection
+
+@section('scripts')
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <script type="text/javascript" src="{{ URL::to('src/js/checkout.js') }}"></script>
 @endsection

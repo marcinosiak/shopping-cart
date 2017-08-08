@@ -6,6 +6,16 @@
 
 @section('content')
 
+  @if (Session::get('success'))
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+            <div class="alert alert-success" id="charge-message">
+                {{ Session::get('success') }}
+            </div>
+        </div>
+    </div>
+  @endif
+
   <!--
    Grupuję wyświetlanie produktr po 3 szt na wiersz timezone_abbreviations_list
    zmienna $produkts jest przekazana do widoku z kontrolera w getIndex()

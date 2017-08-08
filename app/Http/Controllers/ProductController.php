@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Cart;
 use App\Product;
 use Session;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class ProductController extends Controller
 {
@@ -55,6 +57,10 @@ class ProductController extends Controller
       return view('shop.shopping-cart', ['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
 
+    /**
+     * Wyświetla formularz dla karty kredytowej
+     * @return zwraca widok formularza karty z ceną do zapłaty
+     */
     public function getCheckout()
     {
       //koszyk jest pusty
@@ -66,6 +72,34 @@ class ProductController extends Controller
       $cart = new Cart($oldCart);
       $total = $cart->totalPrice;
       return view('shop.checkout', ['total' => $total]);
+    }
+
+
+    public function postCheckout(Request $request)
+    {
+      //koszyk jest pusty
+      if (!Session::has('cart')) {
+        return redirect()->route('shop.shoppingCart');
+      }
+
+      $oldCart = Session::get('cart');
+      $cart = new Cart($oldCart);
+
+      Stripe::setApiKey('sk_test_CuHOLCWWQZtcW6A7uc16TkrS');
+
+      try {
+        Charge::create(array(
+          "amount" => $cart->totalPrice * 100,
+          "currency" => "usd",
+          "source" => $request->input('stripeToken'), // obtained with Stripe.js
+          "description" => "Test Charge"
+        ));
+      } catch (\Exception $e) {
+        return redirect()->route('checkout')->with('error', $e->getMessage());
+      }
+
+      Session::forget('cart');
+      return redirect()->route('product.index')->with('success', 'Successfully purchased płyty!');
     }
 
 }
