@@ -93,7 +93,12 @@ class UserController extends Controller
     //Wyświetla profil użytkownika
     public function getProfile()
     {
-      return view('user.profile');
+      $orders = Auth::user()->orders;
+      $orders->transform(function($order, $key){
+        $order->cart = unserialize($order->cart);
+        return $order;
+      });
+      return view('user.profile', ['orders' => $orders]);
     }
 
     /**
