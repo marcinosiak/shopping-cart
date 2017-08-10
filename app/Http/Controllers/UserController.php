@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User;
 use Auth;
+use Session;
 
 class UserController extends Controller
 {
@@ -36,6 +37,17 @@ class UserController extends Controller
 
       //po zapisaniu do bazy od razu loguję nowego usera
       Auth::login($user);
+      /**
+       * Ustawiam powrót do poprzedniej strony, np.
+       * jestem w koszyku z dodanymi produktami, nie mam konta, po przejściu do płatności, przekierowuje mnie
+       * na stronę logowania. Po zalogowaniu lub założeniu nowego konta powracam automatycznie do podsumowania płatności.
+      */
+      if (Session::has('oldUrl'))
+      {
+        $oldUrl = Session::get('oldUrl');
+        Session::forget('oldUrl');
+        return redirect()->to($oldUrl);
+      }
 
       return redirect()->route('user.profile');
     }
@@ -60,6 +72,18 @@ class UserController extends Controller
 
       if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
       {
+        /**
+         * Ustawiam powrót do poprzedniej strony, np.
+         * jestem w koszyku z dodanymi produktami, nie mam konta, po przejściu do płatności, przekierowuje mnie
+         * na stronę logowania. Po zalogowaniu lub założeniu nowego konta powracam automatycznie do podsumowania płatności.
+        */
+        if (Session::has('oldUrl'))
+        {
+          $oldUrl = Session::get('oldUrl');
+          Session::forget('oldUrl');
+          return redirect()->to($oldUrl);
+        }
+
         return redirect()->route('user.profile');
       }
 

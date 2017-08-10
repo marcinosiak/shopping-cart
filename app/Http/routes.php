@@ -32,13 +32,15 @@ Route::get('/shoping-cart', [
 //Wyświetla formularz dla karty kredytowej
 Route::get('/checkout', [
   'uses' => 'ProductController@getCheckout',
-  'as' => 'checkout'
+  'as' => 'checkout',
+  'middleware' => 'auth'
 ]);
 
 //Przetwarza formularz dla karty kredytowej
 Route::post('/checkout', [
   'uses' => 'ProductController@postCheckout',
-  'as' => 'checkout'
+  'as' => 'checkout',
+  'middleware' => 'auth'
 ]);
 
 //Grupuję ścieżki związane z użytkownikiem
