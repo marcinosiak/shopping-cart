@@ -44,6 +44,46 @@ class ProductController extends Controller
     }
 
     /**
+     * Usuwa wybrany produkt z koszyka lub zmniejsza o jeden
+     * @param  [type] $id [description] id produktu
+     * @return [type]     [description]
+     */
+    public function getReduceByOne($id)
+    {
+      $oldCart = Session::has('cart') ? Session::get('cart') : null;
+      $cart = new Cart($oldCart);
+      $cart->reduceByOne($id);
+
+      if (count($cart->items) > 0) {
+        Session::put('cart', $cart);
+      } else {
+        Session::forget('cart');
+      }
+
+      return redirect()->route('product.shoppingCart');
+    }
+
+    /**
+     * Usuwa pozycję z koszyka lub całą grupę takich samych
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getRemoveItem($id)
+    {
+      $oldCart = Session::has('cart') ? Session::get('cart') : null;
+      $cart = new Cart($oldCart);
+      $cart->removeItem($id);
+
+      if (count($cart->items) > 0) {
+        Session::put('cart', $cart);
+      } else {
+        Session::forget('cart');
+      }
+
+      return redirect()->route('product.shoppingCart');
+    }
+
+    /**
      * Wyświetla koszyk z produktami
      * @return [type] [description]
      */

@@ -44,5 +44,34 @@ class Cart
       $this->totalPrice += $item->price;
     }
 
+    /**
+     * Zmniejsza ilość produktw w koszyku
+     * @param  [type] $id [id produktu]
+     * @return [type]     [description]
+     */
+    public function reduceByOne($id)
+    {
+      $this->items[$id]['qty']--;
+      $this->items[$id]['price'] -= $this->items[$id]['item']['price'];
+      $this->totalQty--;
+      $this->totalPrice -= $this->items[$id]['item']['price'];
 
+      if ($this->items[$id]['qty'] <= 0)
+      {
+        unset($this->items[$id]);
+      }
+    }
+
+    /**
+     * Usuwam pozycję z koszyka o podanym id
+     * Jeśli jest kilka takich samych to zmniejsza o jeden
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function removeItem($id)
+    {
+      $this->totalQty -= $this->items[$id]['qty'];
+      $this->totalPrice -= $this->items[$id]['price'];
+      unset($this->items[$id]);
+    }
 }

@@ -23,6 +23,18 @@ Route::get('/add-to-cart/{id}', [
   'as' => 'product.addToCart'
 ]);
 
+//Usuwa pozycję z koszyka lub zmniejsza o jeden
+Route::get('/reduce/{id}', [
+  'uses' => 'ProductController@getReduceByOne',
+  'as' => 'product.reduceByOne'
+]);
+
+//Usuwa pozycję z koszyka lub całą grupę takich samych
+Route::get('/remove/{id}', [
+  'uses' => 'ProductController@getRemoveItem',
+  'as' => 'product.remove'
+]);
+
 //Wyświetla koszyk
 Route::get('/shoping-cart', [
   'uses' => 'ProductController@getCart',
